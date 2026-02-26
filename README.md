@@ -44,7 +44,7 @@ Inspired by the prediction that the first one-person billion-dollar company will
 
 ```bash
 # Clone the repo
-git clone https://github.com/AgriciDaniel/vaspera-os.git
+git clone https://github.com/RCOLKITT/vaspera-os.git
 cd vaspera-os
 
 # Install dependencies

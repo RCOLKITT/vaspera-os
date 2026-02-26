@@ -84,10 +84,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/AgriciDaniel/vaspera-os"
-Documentation = "https://github.com/AgriciDaniel/vaspera-os#readme"
-Repository = "https://github.com/AgriciDaniel/vaspera-os"
-Issues = "https://github.com/AgriciDaniel/vaspera-os/issues"
+Homepage = "https://github.com/RCOLKITT/vaspera-os"
+Documentation = "https://github.com/RCOLKITT/vaspera-os#readme"
+Repository = "https://github.com/RCOLKITT/vaspera-os"
+Issues = "https://github.com/RCOLKITT/vaspera-os/issues"
 
 [project.scripts]
 vaspera = "src.cli:main"

@@ -1,11 +1,13 @@
 # VasperaOS Product Registry
 # Each product is an independent business unit with its own repo, domain, and resources
+# Owner: RCOLKITT
 
 products:
   vaspera-memory:
     name: "VasperaMemory"
     description: "Cross-tool AI memory platform for developers"
-    repo: "AgriciDaniel/vaspera-memory"
+    repo: "RCOLKITT/VasperaMemory"
+    local_path: "~/Documents/Github/VasperaMemory"
     domain: "vasperamemory.com"
     type: "open-source-saas"
 
@@ -29,17 +31,64 @@ products:
     sentry_project: "vaspera-memory"
     vercel_project: "vaspera-memory"
 
+  vaspera-shield:
+    name: "VasperaShield"
+    description: "AI-powered security monitoring and threat detection"
+    repo: "RCOLKITT/VasperaShield"
+    local_path: "~/Documents/Github/VasperaShield"
+    domain: "vasperashield.com"
+    type: "saas"
+
+    stripe_account: "${STRIPE_ACCOUNT_SHIELD}"
+    pricing_model: "usage-based"
+
+    chatwoot_inbox_id: 2
+    support_email: "support@vasperashield.com"
+
+    ad_platforms:
+      - google
+      - linkedin
+    target_cpa: 150
+    monthly_ad_budget: 2000
+
+    sentry_project: "vaspera-shield"
+    vercel_project: "vaspera-shield"
+
+  vaspera-trade:
+    name: "VasperaTrade"
+    description: "AI trading signals and market analysis"
+    repo: "RCOLKITT/VasperaTrade"
+    local_path: "~/Documents/Github/VasperaTrade"
+    domain: "vasperatrade.com"
+    type: "fintech"
+
+    stripe_account: "${STRIPE_ACCOUNT_TRADE}"
+    pricing_model: "subscription"
+
+    chatwoot_inbox_id: 3
+    support_email: "support@vasperatrade.com"
+
+    ad_platforms:
+      - google
+      - meta
+    target_cpa: 75
+    monthly_ad_budget: 2000
+
+    sentry_project: "vaspera-trade"
+    vercel_project: "vaspera-trade"
+
   wealth-synapse:
     name: "WealthSynapse"
     description: "AI-powered wealth management platform"
-    repo: "AgriciDaniel/wealth-synapse"
+    repo: "RCOLKITT/WealthSynapse"
+    local_path: "~/Documents/Github/WealthSynapse"
     domain: "wealthsynapse.com"
     type: "saas"
 
     stripe_account: "${STRIPE_ACCOUNT_WEALTH}"
     pricing_model: "subscription"
 
-    chatwoot_inbox_id: 2
+    chatwoot_inbox_id: 4
     support_email: "support@wealthsynapse.com"
 
     ad_platforms:
@@ -55,14 +104,15 @@ products:
   nutrifit-ai:
     name: "NutriFitAI"
     description: "AI nutrition and fitness coaching"
-    repo: "AgriciDaniel/nutrifit-ai"
+    repo: "RCOLKITT/NutriFitAi-Application"
+    local_path: "~/Documents/Github/NutriFitAi-Application"
     domain: "nutrifitai.com"
     type: "consumer-app"
 
     stripe_account: "${STRIPE_ACCOUNT_NUTRIFIT}"
     pricing_model: "subscription"
 
-    chatwoot_inbox_id: 3
+    chatwoot_inbox_id: 5
     support_email: "support@nutrifitai.com"
 
     ad_platforms:
@@ -75,54 +125,60 @@ products:
     sentry_project: "nutrifit-ai"
     vercel_project: "nutrifit-ai"
 
-  vaspera-shield:
-    name: "VasperaShield"
-    description: "AI-powered security monitoring"
-    repo: "AgriciDaniel/vaspera-shield"
-    domain: "vasperashield.com"
+  quantum-ai:
+    name: "Quantum AI"
+    description: "Advanced AI analytics and insights platform"
+    repo: "RCOLKITT/Quantum-AI"
+    local_path: "~/Documents/Github/Quantum-AI"
+    domain: "quantum-ai.com"
     type: "saas"
 
-    stripe_account: "${STRIPE_ACCOUNT_SHIELD}"
-    pricing_model: "usage-based"
+    stripe_account: "${STRIPE_ACCOUNT_QUANTUM}"
+    pricing_model: "subscription"
 
-    chatwoot_inbox_id: 4
-    support_email: "support@vasperashield.com"
+    chatwoot_inbox_id: 6
+    support_email: "support@quantum-ai.com"
 
     ad_platforms:
       - google
       - linkedin
-    target_cpa: 150
+    target_cpa: 100
     monthly_ad_budget: 2000
 
-    sentry_project: "vaspera-shield"
-    vercel_project: "vaspera-shield"
+    sentry_project: "quantum-ai"
+    vercel_project: "quantum-ai"
 
-  vaspera-trade:
-    name: "VasperaTrade"
-    description: "AI trading signals and analysis"
-    repo: "AgriciDaniel/vaspera-trade"
-    domain: "vasperatrade.com"
-    type: "fintech"
+  vaspera-connect:
+    name: "VasperaConnect"
+    description: "Integration and connectivity platform"
+    repo: "RCOLKITT/VasperaConnect"
+    local_path: "~/Documents/Github/VasperaConnect"
+    domain: "vasperaconnect.com"
+    type: "saas"
 
-    stripe_account: "${STRIPE_ACCOUNT_TRADE}"
-    pricing_model: "subscription"
+    stripe_account: "${STRIPE_ACCOUNT_CONNECT}"
+    pricing_model: "usage-based"
 
-    chatwoot_inbox_id: 5
-    support_email: "support@vasperatrade.com"
+    chatwoot_inbox_id: 7
+    support_email: "support@vasperaconnect.com"
 
     ad_platforms:
       - google
-      - meta
-    target_cpa: 75
-    monthly_ad_budget: 2000
+      - linkedin
+    target_cpa: 80
+    monthly_ad_budget: 1500
 
-    sentry_project: "vaspera-trade"
-    vercel_project: "vaspera-trade"
+    sentry_project: "vaspera-connect"
+    vercel_project: "vaspera-connect"
 
 # Global settings
 settings:
+  owner: "RCOLKITT"
   default_currency: "USD"
   timezone: "America/New_York"
+
+  # Local paths
+  github_root: "~/Documents/Github"
 
   # Automation rules
   rules:
