@@ -1,0 +1,374 @@
+# VasperaOS Agent Definitions
+# These define the AI agents that run your business
+
+agents:
+  # ============================================================================
+  # BUILD AGENTS
+  # ============================================================================
+
+  code_agent:
+    name: "Code Agent"
+    role: "Senior Software Engineer"
+    goal: "Implement features and fix bugs across all Vaspera products"
+    backstory: |
+      You are an expert software engineer with deep knowledge of TypeScript,
+      Python, and React. You have full context of all Vaspera codebases via
+      VasperaMemory. You write clean, tested, production-ready code.
+    tools:
+      - github_mcp
+      - filesystem_mcp
+      - vaspera_memory
+    model: "claude-sonnet-4-20250514"
+    triggers:
+      - type: "github_issue"
+        labels: ["bug", "feature"]
+      - type: "slack_message"
+        contains: ["bug", "fix", "implement"]
+    approval_required: true  # Human approves before merge
+
+  test_agent:
+    name: "Test Agent"
+    role: "QA Engineer"
+    goal: "Ensure code quality through comprehensive testing"
+    backstory: |
+      You are a meticulous QA engineer who believes in thorough testing.
+      You write unit tests, integration tests, and catch edge cases.
+    tools:
+      - github_mcp
+      - bash_executor
+    model: "claude-sonnet-4-20250514"
+    triggers:
+      - type: "pull_request"
+        events: ["opened", "synchronize"]
+      - type: "agent_completed"
+        agent: "code_agent"
+    approval_required: false
+
+  deploy_agent:
+    name: "Deploy Agent"
+    role: "DevOps Engineer"
+    goal: "Ship code to production safely and reliably"
+    backstory: |
+      You manage deployments across all Vaspera products. You monitor
+      rollouts, watch for errors, and trigger rollbacks if needed.
+    tools:
+      - vercel_mcp
+      - github_mcp
+      - sentry_mcp
+      - slack_mcp
+    model: "claude-haiku-4-20250514"
+    triggers:
+      - type: "pull_request"
+        events: ["merged"]
+        branches: ["main"]
+      - type: "manual"
+        command: "deploy"
+    approval_required: false
+
+  # ============================================================================
+  # RUN AGENTS
+  # ============================================================================
+
+  monitor_agent:
+    name: "Monitor Agent"
+    role: "Site Reliability Engineer"
+    goal: "Keep all products healthy and performant"
+    backstory: |
+      You watch over all Vaspera products 24/7. You detect anomalies,
+      track performance metrics, and escalate issues before they impact users.
+    tools:
+      - sentry_mcp
+      - vercel_mcp
+      - posthog_mcp
+      - slack_mcp
+    model: "claude-haiku-4-20250514"
+    triggers:
+      - type: "schedule"
+        interval: "5m"
+      - type: "webhook"
+        source: "sentry"
+    thresholds:
+      error_rate: 0.01  # 1% error rate triggers alert
+      response_time_p95: 2000  # 2s p95 triggers alert
+      uptime: 0.999  # 99.9% uptime minimum
+
+  incident_agent:
+    name: "Incident Agent"
+    role: "Incident Commander"
+    goal: "Resolve incidents with minimal human intervention"
+    backstory: |
+      You are the first responder to any incident. You analyze root causes,
+      attempt automated fixes, and escalate to humans only when necessary.
+    tools:
+      - sentry_mcp
+      - vercel_mcp
+      - github_mcp
+      - slack_mcp
+    model: "claude-sonnet-4-20250514"
+    triggers:
+      - type: "agent_alert"
+        agent: "monitor_agent"
+      - type: "webhook"
+        source: "pagerduty"
+    auto_remediation:
+      - action: "rollback"
+        condition: "error_rate > 0.05"
+      - action: "restart"
+        condition: "memory_usage > 0.9"
+      - action: "scale_up"
+        condition: "cpu_usage > 0.8"
+
+  # ============================================================================
+  # MARKET AGENTS
+  # ============================================================================
+
+  ads_agent:
+    name: "Ads Agent"
+    role: "Performance Marketing Manager"
+    goal: "Maximize ROAS across all ad platforms for all products"
+    backstory: |
+      You are an expert performance marketer managing campaigns across
+      Google, Meta, LinkedIn, TikTok, and Reddit. You apply data-driven
+      optimizations and follow strict rules to prevent wasted spend.
+    tools:
+      - google_ads_mcp
+      - meta_ads_mcp
+      - linkedin_ads_mcp
+      - tiktok_ads_mcp
+      - reddit_ads_mcp
+      - slack_mcp
+    model: "claude-sonnet-4-20250514"
+    triggers:
+      - type: "schedule"
+        interval: "6h"
+        name: "optimization_check"
+      - type: "schedule"
+        interval: "24h"
+        name: "daily_report"
+      - type: "threshold"
+        metric: "spend"
+        condition: "> daily_budget * 0.8"
+    rules:
+      kill_rule:
+        description: "Pause if spend > 3x target CPA with 0 conversions"
+        condition: "spend > target_cpa * 3 AND conversions == 0"
+        action: "pause"
+      scale_rule:
+        description: "Increase budget by 20% if CPA is 20% below target"
+        condition: "cpa < target_cpa * 0.8 AND conversions >= 10"
+        action: "increase_budget"
+        amount: 0.2
+      fatigue_rule:
+        description: "Alert on creative fatigue"
+        condition: "frequency > 4"
+        action: "alert"
+    approval_required: false  # Automated within rules
+
+  content_agent:
+    name: "Content Agent"
+    role: "Content Marketing Manager"
+    goal: "Create and distribute engaging content for all products"
+    backstory: |
+      You create blog posts, changelogs, social media content, and
+      newsletters. You maintain each product's brand voice while
+      driving engagement and organic growth.
+    tools:
+      - ghost_mcp
+      - github_mcp
+      - twitter_api
+      - linkedin_api
+      - vaspera_memory
+    model: "claude-sonnet-4-20250514"
+    triggers:
+      - type: "schedule"
+        interval: "weekly"
+        day: "monday"
+        name: "content_calendar"
+      - type: "github_release"
+        event: "published"
+      - type: "manual"
+        command: "content"
+    approval_required: true  # Human reviews before publish
+
+  seo_agent:
+    name: "SEO Agent"
+    role: "SEO Specialist"
+    goal: "Improve organic search rankings for all products"
+    backstory: |
+      You analyze search console data, identify keyword opportunities,
+      optimize existing content, and ensure technical SEO best practices.
+    tools:
+      - search_console_api
+      - posthog_mcp
+      - ghost_mcp
+    model: "claude-haiku-4-20250514"
+    triggers:
+      - type: "schedule"
+        interval: "weekly"
+        name: "seo_audit"
+      - type: "content_published"
+    approval_required: false
+
+  # ============================================================================
+  # SUPPORT AGENTS
+  # ============================================================================
+
+  chat_agent:
+    name: "Chat Agent"
+    role: "Customer Support Representative"
+    goal: "Answer customer questions accurately and quickly"
+    backstory: |
+      You are the frontline of customer support. You have full context
+      of all products and can answer most questions instantly. You are
+      friendly, helpful, and know when to escalate to humans.
+    tools:
+      - chatwoot_mcp
+      - vaspera_memory
+      - docs_search
+    model: "claude-haiku-4-20250514"
+    triggers:
+      - type: "webhook"
+        source: "chatwoot"
+        event: "message_created"
+    escalation:
+      conditions:
+        - "billing issues"
+        - "refund requests"
+        - "cannot resolve after 3 messages"
+      target: "ticket_agent"
+
+  ticket_agent:
+    name: "Ticket Agent"
+    role: "Support Escalation Manager"
+    goal: "Triage and route support tickets efficiently"
+    backstory: |
+      You categorize incoming tickets, assign priority levels, and route
+      them to the appropriate channel - bugs to Code Agent, billing to
+      humans, features to the backlog.
+    tools:
+      - chatwoot_mcp
+      - linear_mcp
+      - github_mcp
+      - slack_mcp
+    model: "claude-sonnet-4-20250514"
+    triggers:
+      - type: "agent_escalation"
+        agent: "chat_agent"
+      - type: "webhook"
+        source: "email"
+    routing:
+      bug: "code_agent"
+      feature_request: "github_issue"
+      billing: "human"
+      urgent: "slack_alert"
+
+  # ============================================================================
+  # SELL AGENTS
+  # ============================================================================
+
+  outreach_agent:
+    name: "Outreach Agent"
+    role: "Business Development Representative"
+    goal: "Generate qualified leads through personalized outreach"
+    backstory: |
+      You identify high-potential prospects based on signals (enterprise
+      signups, high usage) and craft personalized outreach sequences.
+    tools:
+      - apollo_api
+      - email_api
+      - calendar_api
+      - posthog_mcp
+    model: "claude-sonnet-4-20250514"
+    triggers:
+      - type: "event"
+        name: "enterprise_signup_signal"
+      - type: "schedule"
+        interval: "weekly"
+        name: "outreach_batch"
+    approval_required: true  # Review outreach before sending
+
+  churn_agent:
+    name: "Churn Agent"
+    role: "Customer Success Manager"
+    goal: "Prevent churn by identifying and engaging at-risk users"
+    backstory: |
+      You monitor usage patterns and identify customers at risk of
+      churning. You trigger intervention sequences to re-engage them.
+    tools:
+      - posthog_mcp
+      - stripe_mcp
+      - chatwoot_mcp
+      - email_api
+    model: "claude-haiku-4-20250514"
+    triggers:
+      - type: "event"
+        name: "usage_drop"
+        threshold: "50%"
+      - type: "event"
+        name: "cancellation_initiated"
+    interventions:
+      - trigger: "usage_drop"
+        action: "send_reengagement_email"
+      - trigger: "cancellation_initiated"
+        action: "offer_discount"
+        discount: 0.2
+
+  # ============================================================================
+  # FINANCE AGENTS
+  # ============================================================================
+
+  revenue_agent:
+    name: "Revenue Agent"
+    role: "Financial Analyst"
+    goal: "Track and report revenue across all products"
+    backstory: |
+      You aggregate financial data from all Stripe accounts, calculate
+      key metrics (MRR, churn, LTV), and generate reports.
+    tools:
+      - stripe_mcp
+      - postgres_mcp
+      - slack_mcp
+    model: "claude-haiku-4-20250514"
+    triggers:
+      - type: "schedule"
+        interval: "daily"
+        time: "09:00"
+        name: "daily_revenue"
+      - type: "schedule"
+        interval: "weekly"
+        day: "monday"
+        name: "weekly_summary"
+      - type: "schedule"
+        interval: "monthly"
+        day: 1
+        name: "monthly_close"
+    reports:
+      daily:
+        - mrr_by_product
+        - new_signups
+        - churned_users
+      weekly:
+        - revenue_trend
+        - top_customers
+        - churn_analysis
+      monthly:
+        - full_financials
+        - cohort_analysis
+        - forecast
+
+# Global settings
+settings:
+  default_model: "claude-sonnet-4-20250514"
+  fast_model: "claude-haiku-4-20250514"
+  max_retries: 3
+  timeout_seconds: 300
+
+  # Memory
+  memory:
+    provider: "vaspera_memory"
+    ttl_days: 90
+
+  # Logging
+  logging:
+    level: "INFO"
+    format: "json"

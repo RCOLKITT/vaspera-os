@@ -1,0 +1,137 @@
+# VasperaOS Product Registry
+# Each product is an independent business unit with its own repo, domain, and resources
+
+products:
+  vaspera-memory:
+    name: "VasperaMemory"
+    description: "Cross-tool AI memory platform for developers"
+    repo: "AgriciDaniel/vaspera-memory"
+    domain: "vasperamemory.com"
+    type: "open-source-saas"
+
+    # Revenue
+    stripe_account: "${STRIPE_ACCOUNT_MEMORY}"
+    pricing_model: "freemium"
+
+    # Support
+    chatwoot_inbox_id: 1
+    support_email: "support@vasperamemory.com"
+
+    # Marketing
+    ad_platforms:
+      - google
+      - linkedin
+      - reddit
+    target_cpa: 50  # USD
+    monthly_ad_budget: 2000
+
+    # Monitoring
+    sentry_project: "vaspera-memory"
+    vercel_project: "vaspera-memory"
+
+  wealth-synapse:
+    name: "WealthSynapse"
+    description: "AI-powered wealth management platform"
+    repo: "AgriciDaniel/wealth-synapse"
+    domain: "wealthsynapse.com"
+    type: "saas"
+
+    stripe_account: "${STRIPE_ACCOUNT_WEALTH}"
+    pricing_model: "subscription"
+
+    chatwoot_inbox_id: 2
+    support_email: "support@wealthsynapse.com"
+
+    ad_platforms:
+      - google
+      - meta
+      - linkedin
+    target_cpa: 100
+    monthly_ad_budget: 3000
+
+    sentry_project: "wealth-synapse"
+    vercel_project: "wealth-synapse"
+
+  nutrifit-ai:
+    name: "NutriFitAI"
+    description: "AI nutrition and fitness coaching"
+    repo: "AgriciDaniel/nutrifit-ai"
+    domain: "nutrifitai.com"
+    type: "consumer-app"
+
+    stripe_account: "${STRIPE_ACCOUNT_NUTRIFIT}"
+    pricing_model: "subscription"
+
+    chatwoot_inbox_id: 3
+    support_email: "support@nutrifitai.com"
+
+    ad_platforms:
+      - meta
+      - tiktok
+      - google
+    target_cpa: 30
+    monthly_ad_budget: 2500
+
+    sentry_project: "nutrifit-ai"
+    vercel_project: "nutrifit-ai"
+
+  vaspera-shield:
+    name: "VasperaShield"
+    description: "AI-powered security monitoring"
+    repo: "AgriciDaniel/vaspera-shield"
+    domain: "vasperashield.com"
+    type: "saas"
+
+    stripe_account: "${STRIPE_ACCOUNT_SHIELD}"
+    pricing_model: "usage-based"
+
+    chatwoot_inbox_id: 4
+    support_email: "support@vasperashield.com"
+
+    ad_platforms:
+      - google
+      - linkedin
+    target_cpa: 150
+    monthly_ad_budget: 2000
+
+    sentry_project: "vaspera-shield"
+    vercel_project: "vaspera-shield"
+
+  vaspera-trade:
+    name: "VasperaTrade"
+    description: "AI trading signals and analysis"
+    repo: "AgriciDaniel/vaspera-trade"
+    domain: "vasperatrade.com"
+    type: "fintech"
+
+    stripe_account: "${STRIPE_ACCOUNT_TRADE}"
+    pricing_model: "subscription"
+
+    chatwoot_inbox_id: 5
+    support_email: "support@vasperatrade.com"
+
+    ad_platforms:
+      - google
+      - meta
+    target_cpa: 75
+    monthly_ad_budget: 2000
+
+    sentry_project: "vaspera-trade"
+    vercel_project: "vaspera-trade"
+
+# Global settings
+settings:
+  default_currency: "USD"
+  timezone: "America/New_York"
+
+  # Automation rules
+  rules:
+    kill_multiplier: 3  # Pause if spend > 3x target CPA with 0 conversions
+    scale_threshold: 0.8  # Scale if CPA < 80% of target
+    scale_increment: 0.2  # Increase budget by 20%
+    creative_fatigue_frequency: 4  # Alert if frequency > 4
+
+  # Notification channels
+  notifications:
+    slack_webhook: "${SLACK_WEBHOOK_URL}"
+    email: "ops@vasperacapital.com"
